@@ -11,7 +11,6 @@
     "@types/react": "^17.0.38",
     "@types/react-dom": "^17.0.11",
     "react": "^17.0.2",
-    "react-calendar-heatmap": "^1.8.1",
     "react-dom": "^17.0.2",
     "react-github-contribution-calendar": "^2.1.1",
     "react-scripts": "5.0.0",
