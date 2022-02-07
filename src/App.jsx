@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from 'react';
-// import CalendarHeatmap from 'react-calendar-heatmap';
-
 import Calendar from 'react-github-contribution-calendar';
 
 import './App.css';
-// import 'react-calendar-heatmap/dist/styles.css';
 
 function App() {
 
@@ -43,14 +40,13 @@ function App() {
 
     setTransactions(finalObj)
 
-
   }, []);
 
   var until = '2020-01-01';
 
   return (
     <div className="App">
-     <Calendar values={transactions} until={until} />
+      <Calendar values={transactions} until={until} />
     </div>
   );
 }
