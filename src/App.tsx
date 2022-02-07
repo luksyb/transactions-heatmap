@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 
 import './App.css';
@@ -7,64 +7,54 @@ import 'react-calendar-heatmap/dist/styles.css';
 function App() {
 
   const [data, setData] = useState([])
-  const [state, setState] = useState("")
+  const [transactions, setTransactions] = useState([])
 
   const getData = () => {
     fetch("./Data/transactions-carter.json", {
-      headers:{
+      headers: {
         "Content-Type": "application.json",
         Accept: "application.json",
       },
     })
-        .then(function (res){
-          // console.log(res);
-          return res.json();
-        })
-        .then(function (myJson){
-          setData(myJson);
-          setState("a");
-        });
+      .then(function (res) {
+        // console.log(res);
+        return res.json();
+      })
+      .then(function (myJson) {
+        setData(myJson);
+      });
   };
 
   useEffect(() => {
     getData();
 
-      const groups = data.reduce((groups, game) => {
-          // @ts-ignore
-          const date = game.date.split('-')[1];
-          // @ts-ignore
-          if (!groups[date]) {
-              // @ts-ignore
-              groups[date] = [];
-          }
-          // @ts-ignore
-          groups[date].push(game);
-          return groups;
-      }, {});
+    let finalObj: any = []
+    data.forEach((transaction: any) => {
+      const date = transaction.date
+      if (finalObj[date]) {
+        finalObj[date].push(transaction);
+      } else {
+        finalObj[date] = [transaction];
+      }
+    })
+    // console.log(finalObj)
 
-      const groupArrays = Object.keys(groups).map((date) => {
-          // @ts-ignore
-          return {
-              date,
-              // games: groups[date]
-          };
-      });
+    setTransactions(finalObj)
 
-      console.log(groupArrays);
-      // console.log(groups)
+
   }, []);
 
   return (
     <div className="App">
-        <CalendarHeatmap
-            values={data}
-            classForValue={(value: { amount: any; }) => {
-                if (!value) {
-                    return 'color-empty';
-                }
-                return `color-github-${value.amount}`;
-            }}
-        />
+      <CalendarHeatmap
+        values={transactions}
+        classForValue={(value) => {
+          if (!value) {
+            return 'color-empty';
+          }
+          return `color-github-${value.amount}`;
+        }}
+      />
     </div>
   );
 }
